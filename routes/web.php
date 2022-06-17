@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.app');
-});
+Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('home');
+
+// Route::get('/contact-form', [App\Http\Controllers\IndexController::class, 'index'])->name('home');
+
