@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="/css/app.css" rel="stylesheet">
-    <title>Document</title>
+    <title>@yield('title')</title>
 </head>
 <body>
-    <h1>I`m working, you are great!</h1>
+    <header>@include('inc.header')</header>
+    @yield('content')
 
 
     <script src="/js/app.js"></script>

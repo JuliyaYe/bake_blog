@@ -15,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('home');
 
-// Route::get('/contact-form', [App\Http\Controllers\IndexController::class, 'index'])->name('home');
+Route::get('/recipes', [App\Http\Controllers\RecipeController::class, 'index'])->name('recipes.index');
+Route::get('/recipes/{id}', [App\Http\Controllers\RecipeController::class, 'show'])->name('recipes.show');
+
 

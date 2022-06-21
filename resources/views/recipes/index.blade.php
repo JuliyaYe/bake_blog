@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Main')
+@section('title', 'Recipes')
 
 @section('content')
     
@@ -8,6 +8,8 @@
         @foreach($recipes as $recipe)
             @include("recipes.onerecipe", ["recipe" => $recipe]) 
         @endforeach
+
+        {{ $recipes->links()}}
     </div>
 
     
