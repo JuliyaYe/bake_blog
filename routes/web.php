@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,15 @@ Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('h
 Route::get('/recipes', [App\Http\Controllers\RecipeController::class, 'index'])->name('recipes.index');
 Route::get('/recipes/{id}', [App\Http\Controllers\RecipeController::class, 'show'])->name('recipes.show');
 
+Route::middleware("auth")->group(function () {
+    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware("guest")->group(function () {
+    Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login-process', [App\Http\Controllers\AuthController::class, 'login'])->name('login-process');
+
+    Route::get('/register', [App\Http\Controllers\AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register-process', [App\Http\Controllers\AuthController::class, 'register'])->name('register-process');
+});
 
