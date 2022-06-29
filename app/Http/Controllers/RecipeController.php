@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentForm;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,15 @@ class RecipeController extends Controller
         return view('recipes.show', [
             "recipe" => $recipe
         ]);
+    }
+
+    public function comment($id, CommentForm $request)
+    {
+        $recipe = Recipe::findOrFail($id);
+
+        $recipe->comments()->create($request->validated());
+
+        return redirect(route("recipes.show", $id));
+
     }
 }

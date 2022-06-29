@@ -16,11 +16,11 @@ class Comment extends Model
 
     public function recipe()
     {
-        $this->belongsTo(Recipe::class);
+        return $this->belongsTo(Recipe::class);
     }
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

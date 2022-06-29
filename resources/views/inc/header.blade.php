@@ -13,6 +13,10 @@
     <div>
         <a href="{{ route('recipes.index') }}" class="text-base font-medium text-gray-500 hover:text-gray-900">Recipes</a>
     </div>
+
+    <div>
+        <a href="{{ route('contacts') }}" class="text-base font-medium text-gray-500 hover:text-gray-900">Contacts</a>
+    </div>
         
 
     <div class="sm:mb-0 self-center">

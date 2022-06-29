@@ -1,0 +1,1 @@
+<p>Your new password {{ $password }}</p>

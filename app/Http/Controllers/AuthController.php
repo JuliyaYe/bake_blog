@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPassword;
 
 class AuthController extends Controller
 {
@@ -57,5 +59,28 @@ class AuthController extends Controller
         }
 
         return redirect(route('home'));
+    }
+
+    public function showForgotForm()
+    {
+        return view('auth.forgot');
+    }
+
+    public function forgot(Request $request)
+    {
+        $data = $request->validate([
+            "email" => ["required", "email", "string", "exists:users"],            
+        ]);
+
+        $user = User::where(["email" => $data["email"]])->first();
+        
+        $password = uniqid();
+
+        $user->password = bcrypt($password);
+        $user->save();
+
+        Mail::to($user)->send(new ForgotPassword($password));
+
+        return redirect(route('login'));
     }
 }
