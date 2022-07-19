@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RecipeFormRequest;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 
@@ -34,12 +35,14 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RecipeFormRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RecipeFormRequest $request)
     {
-        //
+        $recipe = Recipe::create($request->validated());
+
+        return redirect(route('admin.posts.index'));
     }
 
     /**
@@ -61,19 +64,33 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $recipe = Recipe::findOrFail($id);
+        return view('admin.posts.create', [
+            "recipe" => $recipe,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  RecipeFormRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RecipeFormRequest $request, $id)
     {
-        //
+        $recipe = Recipe::findOrFail($id);
+
+        $data = $request->validated();
+
+        if($request->has("thumbnail")) {
+            $thumbnail = str_replace("public/recipes", "", $request->file("thumbnail")->store("public/recipes"));
+            $data["thumbnail"] = $thumbnail;
+        }
+
+        $recipe->update($data);
+
+        return redirect(route('admin.posts.index'));
     }
 
     /**

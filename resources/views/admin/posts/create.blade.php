@@ -1,32 +1,58 @@
 @extends('layouts.admin')
 
-@section('title', 'Add recipe')
+@section('title', isset($recipe) ? "Edit recipe ID {$recipe->id}" : 'Add recipe')
 
 @section('content')
     
-                        <div class="container mx-auto px-6 py-8">
-                            <h3 class="text-gray-700 text-3xl font-medium">Добавить новую</h3>
+<div class="container mx-auto px-6 py-8">
+    <h3 class="text-gray-700 text-3xl font-medium">{{ isset($recipe) ? "Edit recipe ID {$recipe->id}" : "Add recipe" }}</h3>
 
-                            <div class="mt-8">
+    <div class="mt-8">
 
-                            </div>
+    </div>
 
-                            <div class="mt-8">
-                                <form class="space-y-5 mt-5">
-                                    <input type="text" class="w-full h-12 border border-gray-800 rounded px-3" placeholder="Название" />
+    <div class="mt-8">
+        <form enctype="multipart/form-data" class="space-y-5 mt-5" method="POST" action="{{ isset($recipe) ? route('admin.posts.update', $recipe->id) : route('admin.posts.store') }}">
+            @csrf 
 
-                                    <input type="text" class="w-full h-12 border border-gray-800 rounded px-3" placeholder="Описание" />
+            @if(isset($recipe))
+                @method('PUT')
+            @endif
 
-                                    <div>
-                                        <img class="h-64 w-64" src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
-                                    </div>
+            <input name="title" type="text" class="w-full h-12 border border-gray-800 @error('title') border-red-500 @enderror rounded px-3" placeholder="Название" value="{{ $recipe->title ?? '' }}" />
 
-                                    <input type="file" class="w-full h-12" placeholder="Обложка" />
+            @error('title')
+                <p class="text-red-500">{{ $message }}</p>
+            @enderror
 
-                                    <button type="submit" class="text-center w-full bg-blue-900 rounded-md text-white py-3 font-medium">Сохранить</button>
-                                </form>
-                            </div>
-                        </div>
+            <input name="preview" type="text" class="w-full h-12 border border-gray-800 @error('preview') border-red-500 @enderror rounded px-3" placeholder="Кратко" value="{{ $recipe->preview ?? '' }}" />
+
+            @error('preview')
+                <p class="text-red-500">{{ $message }}</p>
+            @enderror
+
+            <input name="description" type="text" class="w-full h-12 border border-gray-800 @error('description') border-red-500 @enderror rounded px-3" placeholder="Описание" value="{{ $recipe->description ?? '' }}" />
+
+            @error('description')
+                <p class="text-red-500">{{ $message }}</p>
+            @enderror
+
+            @if(isset($recipe) && $recipe->thumbnail)
+            <div>
+                <img class="h-64 w-64" src="/storage/recipes/{{ $recipe->thumbnail }}">
+            </div>
+            @endif
+
+            <input name="thumbnail" type="file" class="w-full h-12" placeholder="Обложка" />
+
+            @error('thumbnail')
+                <p class="text-red-500">{{ $message }}</p>
+            @enderror
+
+            <button type="submit" class="text-center w-full bg-blue-900 rounded-md text-white py-3 font-medium">Сохранить</button>
+        </form>
+    </div>
+</div>
 
     
 @endsection
